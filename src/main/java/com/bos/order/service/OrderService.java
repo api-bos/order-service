@@ -79,16 +79,16 @@ public class OrderService {
                     tmp_tempDetailTransaction.setQuantity(l_quantity);
                     g_temporaryDetailTransactionRepository.save(tmp_tempDetailTransaction);
 
-                    l_output = new ResultEntity("Y", ErrorCode.B000);
+                    l_output = new ResultEntity("Y", ErrorCode.BIT_000);
                 }
 
             }else {
-                l_output = new ResultEntity(l_arrayErrorMessage, ErrorCode.B999);
+                l_output = new ResultEntity(l_arrayErrorMessage, ErrorCode.BIT_999);
             }
 
         }catch (Exception e){
             e.printStackTrace();
-            l_output = new ResultEntity(e.toString(), ErrorCode.B999);
+            l_output = new ResultEntity(e.toString(), ErrorCode.BIT_999);
         }
 
         return l_output;
@@ -105,11 +105,11 @@ public class OrderService {
             tmp_responseData.setTemp_transaction(tmp_tempTransaction);
             tmp_responseData.setTemp_detail_transaction(tmp_arrayTempDetailTransaction);
 
-            l_output = new ResultEntity(tmp_responseData, ErrorCode.B000);
+            l_output = new ResultEntity(tmp_responseData, ErrorCode.BIT_000);
 
         }catch (Exception e){
             e.printStackTrace();
-            l_output = new ResultEntity(e.toString(), ErrorCode.B999);
+            l_output = new ResultEntity(e.toString(), ErrorCode.BIT_999);
         }
 
         return l_output;
@@ -186,16 +186,16 @@ public class OrderService {
                     tmp_transactionDetail.setSell_price(p_order.getProduct().get(i).getSell_price());
                     g_transactionDetailRepository.save(tmp_transactionDetail);
 
-                    l_output = new ResultEntity("Y", ErrorCode.B000);
+                    l_output = new ResultEntity("Y", ErrorCode.BIT_000);
                 }
 
             }else {
-                l_output = new ResultEntity(l_arrayErrorMessage, ErrorCode.B999);
+                l_output = new ResultEntity(l_arrayErrorMessage, ErrorCode.BIT_999);
             }
 
         }catch (Exception e){
             e.printStackTrace();
-            l_output = new ResultEntity(e.toString(), ErrorCode.B999);
+            l_output = new ResultEntity(e.toString(), ErrorCode.BIT_999);
         }
 
         return l_output;
