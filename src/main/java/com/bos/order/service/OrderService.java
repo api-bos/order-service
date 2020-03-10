@@ -141,7 +141,7 @@ public class OrderService {
 
             if (!l_transactionOccured){
                 //Save or update data to buyer table
-                if (g_buyerRepository.existByPhone(p_order.getPhone())){
+                if (!g_buyerRepository.existByPhone(p_order.getPhone()).equals(Optional.empty())){
                     g_buyerRepository.updateNameByPhone(p_order.getBuyer_name(), p_order.getPhone());
 
                 }else {
