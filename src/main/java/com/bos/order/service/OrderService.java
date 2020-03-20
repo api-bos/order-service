@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -153,6 +155,7 @@ public class OrderService {
 
                 //Save data to transaction table
                 Timestamp l_timestamp = new Timestamp(System.currentTimeMillis());
+                String tmp_vaNumber = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
                 Transaction tmp_transaction = new Transaction();
                 tmp_transaction.setId_buyer(g_buyerRepository.getBuyerIdByPhone(p_order.getPhone()));
                 tmp_transaction.setOrder_time(l_timestamp);
@@ -163,6 +166,7 @@ public class OrderService {
                 tmp_transaction.setId_seller(p_order.getId_seller());
                 tmp_transaction.setId_kelurahan(p_order.getId_kelurahan());
                 tmp_transaction.setAddress_detail(p_order.getAddress_detail());
+                tmp_transaction.setVa_number(tmp_vaNumber);
                 g_transactionRepository.save(tmp_transaction);
 
                 //Get id_transaction from transaction table

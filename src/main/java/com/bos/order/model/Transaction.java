@@ -27,4 +27,5 @@ public class Transaction {
     private int id_seller;
     private int id_kelurahan;
     private String address_detail;
+    private String va_number;
 }
