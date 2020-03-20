@@ -79,7 +79,7 @@ public class OrderService {
                     tmp_tempDetailTransaction.setQuantity(l_quantity);
                     g_temporaryDetailTransactionRepository.save(tmp_tempDetailTransaction);
 
-                    l_output = new ResultEntity("Y", ErrorCode.BIT_000);
+                    l_output = new ResultEntity(tmp_tempTransactionId, ErrorCode.BIT_000);
                 }
 
             }else {

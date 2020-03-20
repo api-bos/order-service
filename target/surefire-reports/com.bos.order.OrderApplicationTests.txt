@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.bos.order.OrderApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.548 s - in com.bos.order.OrderApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.955 s - in com.bos.order.OrderApplicationTests
