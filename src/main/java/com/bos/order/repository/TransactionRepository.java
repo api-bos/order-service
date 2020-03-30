@@ -1,6 +1,7 @@
 package com.bos.order.repository;
 
 import com.bos.order.model.Transaction;
+import com.bos.order.model.response.ResponseDataVaInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,4 +11,7 @@ import java.sql.Timestamp;
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
     @Query(value = "SELECT id_transaction FROM transaction WHERE order_time = :order_time", nativeQuery = true)
     int getTransactionIdByOrderTime(@Param("order_time") Timestamp order_time);
+
+    @Query(value = "SELECT * FROM transaction WHERE id_temp_transaction=:id_temp_transaction", nativeQuery = true)
+    Transaction getTransactionByTempTransactionId(@Param("id_temp_transaction") int p_tempTransactionId);
 }

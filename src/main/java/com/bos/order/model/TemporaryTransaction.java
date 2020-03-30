@@ -21,4 +21,5 @@ public class TemporaryTransaction {
     private int id_seller;
     private int origin_city;
     private Timestamp order_time;
+    private int status;
 }

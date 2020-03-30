@@ -1,8 +1,8 @@
 package com.bos.order.controller;
 
 import bca.bit.proj.library.base.ResultEntity;
-import com.bos.order.model.Order;
-import com.bos.order.model.RequestData;
+import com.bos.order.model.request.Order;
+import com.bos.order.model.request.RequestData;
 import com.bos.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -3,6 +3,10 @@ package com.bos.order.service;
 import bca.bit.proj.library.base.ResultEntity;
 import bca.bit.proj.library.enums.ErrorCode;
 import com.bos.order.model.*;
+import com.bos.order.model.request.Order;
+import com.bos.order.model.request.RequestData;
+import com.bos.order.model.response.ResponseData;
+import com.bos.order.model.response.ResponseDataVaInfo;
 import com.bos.order.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +63,7 @@ public class OrderService {
                 tmp_tempTransaction.setOrder_time(l_timestamp);
                 tmp_tempTransaction.setId_seller(p_requestData.getId_seller());
                 tmp_tempTransaction.setOrigin_city(p_requestData.getOrigin_city());
+                tmp_tempTransaction.setStatus(0);
                 g_temporaryTransactionRepository.save(tmp_tempTransaction);
 
                 //Get id_temp_transaction from temp_transaction table
@@ -100,14 +105,26 @@ public class OrderService {
         ResultEntity l_output;
 
         try {
-            Optional<TemporaryTransaction> tmp_tempTransaction = g_temporaryTransactionRepository.findById(p_tempTransactionId);
-            ArrayList<TemporaryDetailTransaction> tmp_arrayTempDetailTransaction = g_temporaryDetailTransactionRepository.getAllDetailTransactionByTempTransactionId(p_tempTransactionId);
+            if (g_temporaryTransactionRepository.getStatusByTempTransactionId(p_tempTransactionId)==0){
+                Optional<TemporaryTransaction> tmp_tempTransaction = g_temporaryTransactionRepository.findById(p_tempTransactionId);
+                ArrayList<TemporaryDetailTransaction> tmp_arrayTempDetailTransaction = g_temporaryDetailTransactionRepository.getAllDetailTransactionByTempTransactionId(p_tempTransactionId);
 
-            ResponseData tmp_responseData = new ResponseData();
-            tmp_responseData.setTemp_transaction(tmp_tempTransaction);
-            tmp_responseData.setTemp_detail_transaction(tmp_arrayTempDetailTransaction);
+                ResponseData tmp_responseData = new ResponseData();
+                tmp_responseData.setTemp_transaction(tmp_tempTransaction);
+                tmp_responseData.setTemp_detail_transaction(tmp_arrayTempDetailTransaction);
 
-            l_output = new ResultEntity(tmp_responseData, ErrorCode.BIT_000);
+                l_output = new ResultEntity(tmp_responseData, ErrorCode.BIT_000);
+
+            }else {
+                Transaction tmp_transaction = g_transactionRepository.getTransactionByTempTransactionId(p_tempTransactionId);
+
+                ResponseDataVaInfo tmp_responseDataVaInfo = new ResponseDataVaInfo();
+                tmp_responseDataVaInfo.setId_transaction(tmp_transaction.getId_transaction());
+                tmp_responseDataVaInfo.setVa_number(tmp_transaction.getVa_number());
+                tmp_responseDataVaInfo.setOrder_time(tmp_transaction.getOrder_time());
+
+                l_output = new ResultEntity(tmp_responseDataVaInfo, ErrorCode.BIT_000);
+            }
 
         }catch (Exception e){
             e.printStackTrace();
@@ -172,7 +189,7 @@ public class OrderService {
                 //Get id_transaction from transaction table
                 int tmp_transactionId = g_transactionRepository.getTransactionIdByOrderTime(l_timestamp);
 
-                //Save data as much as product oredered to transaction_detail table
+                //Save data as much as product ordered to transaction_detail table
                 for (int i = 0; i<p_order.getProduct().size(); i++){
                     l_productId = p_order.getProduct().get(i).getId_product();
 
@@ -189,6 +206,9 @@ public class OrderService {
                     tmp_transactionDetail.setQuantity(l_quantity);
                     tmp_transactionDetail.setSell_price(p_order.getProduct().get(i).getSell_price());
                     g_transactionDetailRepository.save(tmp_transactionDetail);
+
+                    //Update status to temporary transaction
+                    g_temporaryTransactionRepository.updateStatusByTempTransactionId(p_order.getId_temp_transaction());
 
                     l_output = new ResultEntity("Y", ErrorCode.BIT_000);
                 }
