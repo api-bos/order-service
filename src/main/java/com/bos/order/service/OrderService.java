@@ -184,6 +184,7 @@ public class OrderService {
                 tmp_transaction.setId_kelurahan(p_order.getId_kelurahan());
                 tmp_transaction.setAddress_detail(p_order.getAddress_detail());
                 tmp_transaction.setVa_number(tmp_vaNumber);
+                tmp_transaction.setId_temp_transaction(p_order.getId_temp_transaction());
                 g_transactionRepository.save(tmp_transaction);
 
                 //Get id_transaction from transaction table
